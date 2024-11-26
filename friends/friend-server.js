@@ -18,8 +18,7 @@ var certificate = fs.readFileSync(__dirname + '../../../cert.crt', 'utf8');
 var httpsServer = https.createServer(
     {
         key: privateKey,
-        cert: certificate,
-        requestCert: true
+        cert: certificate
     }
     , app);
 
