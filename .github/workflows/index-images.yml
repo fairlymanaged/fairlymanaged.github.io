@@ -1,0 +1,43 @@
+name: index images
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Generate JSON with image links
+      run: |
+        node -e "
+        const fs = require('fs');
+        const path = require('path');
+        const dirPath = './friend-images';
+        const files = fs.readdirSync(dirPath).filter(file => /\.(jpg|jpeg|png|gif)$/.test(file));
+        const links = files.map(file => ({ link: 'https://fairlymanaged.github.io/friend-images/' + file }));
+        fs.writeFileSync('friend-pics.json', JSON.stringify(links, null, 2));
+        "
+      
+    - name: Commit and push changes
+      run: |
+        git config --global user.name 'fairlymanaged'
+        git config --global user.email 'fairlymanaged@gmail.com'
+        git add image-links.json
+        git commit -m 'Generate JSON with image links'
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
