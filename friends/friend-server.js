@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
 const rateLimit = require('express-rate-limit');
 
 const app = express();
@@ -11,10 +12,16 @@ const limiter = rateLimit({
     max: 5 // limit each IP to 5 requests per windowMs
 });
 
-var privateKey  = fs.readFileSync(__dirname + '../../../private-key.pem', 'utf8');
+var privateKey = fs.readFileSync(__dirname + '../../../private-key.pem', 'utf8');
 var certificate = fs.readFileSync(__dirname + '../../../cert.crt', 'utf8');
 
-var httpsServer = require('https').createServer({key: privateKey, cert: certificate}, app);
+var httpsServer = https.createServer(
+    {
+        key: privateKey,
+        cert: certificate,
+        requestCert: true
+    }
+    , app);
 
 httpsServer.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
