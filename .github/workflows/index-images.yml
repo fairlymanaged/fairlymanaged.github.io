@@ -30,7 +30,7 @@ jobs:
         const dirPath = './friends/friend-images';
         const files = fs.readdirSync(dirPath).filter(file => /\.(jpg|jpeg|png|gif)$/.test(file));
         const links = files.map(file => ({ link: 'https://fairlymanaged.github.io/friends/friend-images/' + file }));
-        fs.writeFileSync('friend-pics.json', JSON.stringify(links, null, 2));
+        fs.writeFileSync('friends/friend-pics.json', JSON.stringify(links, null, 2));
         "
       
     - name: Commit and push changes
