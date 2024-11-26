@@ -34,8 +34,8 @@ jobs:
       
     - name: Commit and push changes
       run: |
-        git config --global user.name 'fairlymanaged'
-        git config --global user.email 'fairlymanaged@gmail.com'
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
         git add image-links.json
         git commit -m 'Generate JSON with image links'
         git push
