@@ -11,8 +11,8 @@ const limiter = rateLimit({
     max: 5 // limit each IP to 5 requests per windowMs
 });
 
-var privateKey  = fs.readFileSync(__dirname + '../../private.pem', 'utf8');
-var certificate = fs.readFileSync(__dirname + '../../cert.pem', 'utf8');
+var privateKey  = fs.readFileSync(__dirname + '../../../private-key.pem', 'utf8');
+var certificate = fs.readFileSync(__dirname + '../../../cert.pem', 'utf8');
 
 var httpsApp = require('https').createServer({key: privateKey, cert: certificate}, app);
 
