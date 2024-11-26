@@ -34,13 +34,12 @@ jobs:
         "
       
     - name: Commit and push changes
-
       if: ${{!contains(github.event.head_commit.message, 'Generate JSON with image links')}}
       run: |
         git config --global user.name 'github-actions'
         git config --global user.email 'github-actions@github.com'
         git add friends/friend-pics.json
-        git commit -m 'Generate JSON with image links'
+        git diff-index --quiet HEAD || git commit -m 'Generate JSON with image links'
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
