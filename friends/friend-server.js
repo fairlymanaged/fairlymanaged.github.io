@@ -14,9 +14,9 @@ const limiter = rateLimit({
 var privateKey  = fs.readFileSync(__dirname + '../../../private-key.pem', 'utf8');
 var certificate = fs.readFileSync(__dirname + '../../../cert.pem', 'utf8');
 
-var httpsApp = require('https').createServer({key: privateKey, cert: certificate}, app);
+var httpsServer = require('https').createServer({key: privateKey, cert: certificate}, app);
 
-httpsApp.listen(port, () => {
+httpsServer.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
 
@@ -36,7 +36,7 @@ function getImage(files, ip) {
     return image;
 }
 
-httpsApp.get('/getFriend', limiter, (req, res) => {
+app.get('/getFriend', limiter, (req, res) => {
     const imagesDir = path.join(__dirname, 'friend-images');
     if (foundFiles.length > 0) {
         serveImage(req, foundFiles, res);
