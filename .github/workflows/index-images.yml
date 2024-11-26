@@ -17,7 +17,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '20'
+        node-version: '16'
 
     - name: Install dependencies
       run: npm install
@@ -27,9 +27,9 @@ jobs:
         node -e "
         const fs = require('fs');
         const path = require('path');
-        const dirPath = './friend-images';
+        const dirPath = './friends/friend-images';
         const files = fs.readdirSync(dirPath).filter(file => /\.(jpg|jpeg|png|gif)$/.test(file));
-        const links = files.map(file => ({ link: 'https://fairlymanaged.github.io/friend-images/' + file }));
+        const links = files.map(file => ({ link: 'https://fairlymanaged.github.io/friends/friend-images/' + file }));
         fs.writeFileSync('friend-pics.json', JSON.stringify(links, null, 2));
         "
       
@@ -39,7 +39,7 @@ jobs:
       run: |
         git config --global user.name 'github-actions'
         git config --global user.email 'github-actions@github.com'
-        git add friend-pics.json
+        git add friends/friend-pics.json
         git commit -m 'Generate JSON with image links'
         git push
       env:
