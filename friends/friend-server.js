@@ -11,7 +11,12 @@ const limiter = rateLimit({
     max: 5 // limit each IP to 5 requests per windowMs
 });
 
-app.listen(port, () => {
+var privateKey  = fs.readFileSync(__dirname + '../../private.pem', 'utf8');
+var certificate = fs.readFileSync(__dirname + '../../cert.pem', 'utf8');
+
+var httpsApp = require('https').createServer({key: privateKey, cert: certificate}, app);
+
+httpsApp.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
 
@@ -31,7 +36,7 @@ function getImage(files, ip) {
     return image;
 }
 
-app.get('/getFriend', limiter, (req, res) => {
+httpsApp.get('/getFriend', limiter, (req, res) => {
     const imagesDir = path.join(__dirname, 'friend-images');
     if (foundFiles.length > 0) {
         serveImage(req, foundFiles, res);
