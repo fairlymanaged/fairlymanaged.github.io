@@ -5,7 +5,7 @@ const https = require('https');
 const rateLimit = require('express-rate-limit');
 
 const app = express();
-const port = 6543;
+const port = 443;
 
 const limiter = rateLimit({
     windowMs: 1000, // 1 second
