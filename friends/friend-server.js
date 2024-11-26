@@ -12,7 +12,7 @@ const limiter = rateLimit({
 });
 
 var privateKey  = fs.readFileSync(__dirname + '../../../private-key.pem', 'utf8');
-var certificate = fs.readFileSync(__dirname + '../../../cert.pem', 'utf8');
+var certificate = fs.readFileSync(__dirname + '../../../cert.crt', 'utf8');
 
 var httpsServer = require('https').createServer({key: privateKey, cert: certificate}, app);
 
