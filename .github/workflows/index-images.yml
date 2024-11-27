@@ -1,45 +1,45 @@
-name: index images
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
-
-    - name: Install dependencies
-      run: npm install
-
-    - name: Generate JSON with image links
-      run: |
-        node -e "
-        const fs = require('fs');
-        const path = require('path');
-        const dirPath = './friends/friend-images';
-        const files = fs.readdirSync(dirPath).filter(file => /\.(jpg|jpeg|png|gif)$/.test(file));
-        const links = files.map(file => ({ link: 'https://fairlymanaged.github.io/friends/friend-images/' + file }));
-        fs.writeFileSync('friends/friend-pics.json', JSON.stringify(links, null, 2));
-        "
-      
-    - name: Commit and push changes
-      if: ${{!contains(github.event.head_commit.message, 'Generate JSON with image links')}}
-      run: |
-        git config --global user.name 'github-actions'
-        git config --global user.email 'github-actions@github.com'
-        git add friends/friend-pics.json
-        git diff-index --quiet HEAD || git commit -m 'Generate JSON with image links'
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#name: index images
+#
+#on:
+#  push:
+#    branches:
+#      - main
+#
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#    permissions:
+#      contents: write
+#    steps:
+#    - name: Checkout repository
+#      uses: actions/checkout@v2
+#
+#    - name: Setup Node.js
+#      uses: actions/setup-node@v2
+#      with:
+#        node-version: '16'
+#
+#    - name: Install dependencies
+#      run: npm install
+#
+#    - name: Generate JSON with image links
+#      run: |
+#        node -e "
+#        const fs = require('fs');
+#        const path = require('path');
+#        const dirPath = './friends/friend-images';
+#        const files = fs.readdirSync(dirPath).filter(file => /\.(jpg|jpeg|png|gif)$/.test(file));
+#        const links = files.map(file => ({ link: 'https://fairlymanaged.github.io/friends/friend-images/' + file }));
+#        fs.writeFileSync('friends/friend-pics.json', JSON.stringify(links, null, 2));
+#        "
+#      
+#    - name: Commit and push changes
+#      if: ${{!contains(github.event.head_commit.message, 'Generate JSON with image links')}}
+#      run: |
+#        git config --global user.name 'github-actions'
+#        git config --global user.email 'github-actions@github.com'
+#        git add friends/friend-pics.json
+#        git diff-index --quiet HEAD || git commit -m 'Generate JSON with image links'
+#        git push
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
